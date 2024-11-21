@@ -16,5 +16,12 @@ def crop_barcode(img):
     # Crop the image so that only the barcode is visible
     cropped_img = img[y:y + h, x_min:x_max]
 
-    return cropped_img
+     # Draw the bounding rectangle of the largest contour in green
+    cv.rectangle(img, (x_min, y), (x_max, y + h), (0, 255, 0), 2)
+
+    # Draw all contours in red
+    contour_img = cv.cvtColor(img, cv.COLOR_GRAY2BGR)  # Convert to BGR for colored drawing
+    cv.drawContours(contour_img, contours, -1, (0, 0, 255), 2)  # Draw all contours in red
+
+    return cropped_img, contour_img
 
