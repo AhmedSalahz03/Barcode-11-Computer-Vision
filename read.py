@@ -38,8 +38,16 @@ binary_img = cv.morphologyEx(binary_img, cv.MORPH_CLOSE, kernel2)
 
 cropped_img = crop_barcode(binary_img)
 
+# Create a vertical kernel (all 1's vertically)
+kernel_vertical = np.ones((17, 1), np.uint8)  # Adjust the height as needed
+
+# Apply dilation with the vertical kernel
+dilated_img = cv.dilate(cropped_img, kernel_vertical)
+cv.imshow('Dilated Image', dilated_img)
+final_img = cv.morphologyEx(cropped_img, cv.MORPH_CLOSE, kernel1)
+
 # Invert 
-inverted_img = cv.bitwise_not(cropped_img)
+inverted_img = cv.bitwise_not(final_img)
 cv.imshow('Inverted Morphologically Closed Image', inverted_img)
 
 
